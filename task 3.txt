@@ -1,0 +1,338 @@
+public class Book {
+    private int id;
+    private String title;
+    private String author;
+    private double price;
+    private int quantity;
+
+    public Book(int id, String title, String author, double price, int quantity) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+        this.price = price;
+        this.quantity = quantity;
+    }
+
+    // Getters and setters
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    // Method to display book information
+    public void displayBookInfo() {
+        System.out.println("Book ID: " + id);
+        System.out.println("Title: " + title);
+        System.out.println("Author: " + author);
+        System.out.println("Price: $" + price);
+        System.out.println("Quantity available: " + quantity);
+    }
+}
+
+public class Customer {
+    private int id;
+    private String name;
+    private String email;
+    private String address;
+
+    public Customer(int id, String name, String email, String address) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.address = address;
+    }
+
+    // Getters and setters
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    // Method to display customer information
+    public void displayCustomerInfo() {
+        System.out.println("Customer ID: " + id);
+        System.out.println("Name: " + name);
+        System.out.println("Email: " + email);
+        System.out.println("Address: " + address);
+    }
+}
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Order {
+    private int orderId;
+    private Customer customer;
+    private List<Book> books;
+    private double totalAmount;
+
+    public Order(int orderId, Customer customer) {
+        this.orderId = orderId;
+        this.customer = customer;
+        this.books = new ArrayList<>();
+        this.totalAmount = 0.0;
+    }
+
+    // Getters and setters
+    public int getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
+    }
+
+    public double getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(double totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
+    // Method to add a book to the order
+    public void addBook(Book book) {
+        books.add(book);
+        totalAmount += book.getPrice();
+    }
+
+    // Method to generate and display invoice
+    public void generateInvoice() {
+        System.out.println("Invoice for Order ID: " + orderId);
+        customer.displayCustomerInfo();
+        System.out.println("Books Purchased:");
+        for (Book book : books) {
+            System.out.println(book.getTitle() + " by " + book.getAuthor() + " - $" + book.getPrice());
+        }
+        System.out.println("Total Amount: $" + totalAmount);
+    }
+}
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class Bookstore {
+    private Map<Integer, Book> books;
+    private List<Customer> customers;
+    private List<Order> orders;
+    private int nextOrderId;
+
+    public Bookstore() {
+        this.books = new HashMap<>();
+        this.customers = new ArrayList<>();
+        this.orders = new ArrayList<>();
+        this.nextOrderId = 1; // Starting order ID
+    }
+
+    // Method to add a book to the bookstore inventory
+    public void addBook(int id, String title, String author, double price, int quantity) {
+        Book book = new Book(id, title, author, price, quantity);
+        books.put(id, book);
+    }
+
+    // Method to remove a book from the bookstore inventory
+    public void removeBook(int bookId) {
+        books.remove(bookId);
+    }
+
+    // Method to search and display a book by ID
+    public void displayBook(int bookId) {
+        if (books.containsKey(bookId)) {
+            books.get(bookId).displayBookInfo();
+        } else {
+            System.out.println("Book not found with ID: " + bookId);
+        }
+    }
+
+    // Method to display all books in the bookstore
+    public void displayAllBooks() {
+        System.out.println("Books in Bookstore:");
+        for (Book book : books.values()) {
+            book.displayBookInfo();
+            System.out.println(); // Empty line for readability
+        }
+    }
+
+    // Method to add a customer
+    public void addCustomer(int id, String name, String email, String address) {
+        Customer customer = new Customer(id, name, email, address);
+        customers.add(customer);
+    }
+
+    // Method to search and display a customer by ID
+    public void displayCustomer(int customerId) {
+        for (Customer customer : customers) {
+            if (customer.getId() == customerId) {
+                customer.displayCustomerInfo();
+                return;
+            }
+        }
+        System.out.println("Customer not found with ID: " + customerId);
+    }
+
+    // Method to display all customers
+    public void displayAllCustomers() {
+        System.out.println("Customers in Bookstore:");
+        for (Customer customer : customers) {
+            customer.displayCustomerInfo();
+            System.out.println(); // Empty line for readability
+        }
+    }
+
+    // Method to start a new order for a customer
+    public void startNewOrder(int customerId) {
+        Customer customer = findCustomerById(customerId);
+        if (customer == null) {
+            System.out.println("Customer not found with ID: " + customerId);
+            return;
+        }
+        Order order = new Order(nextOrderId++, customer);
+        orders.add(order);
+        System.out.println("New Order started for Customer ID " + customerId + " with Order ID " + (nextOrderId - 1));
+    }
+
+    // Method to add a book to an existing order
+    public void addBookToOrder(int orderId, int bookId) {
+        Order order = findOrderById(orderId);
+        Book book = findBookById(bookId);
+
+        if (order == null) {
+            System.out.println("Order not found with ID: " + orderId);
+            return;
+        }
+
+        if (book == null) {
+            System.out.println("Book not found with ID: " + bookId);
+            return;
+        }
+
+        if (book.getQuantity() <= 0) {
+            System.out.println("Book is out of stock.");
+            return;
+        }
+
+        order.addBook(book);
+        book.setQuantity(book.getQuantity() - 1); // Reduce book quantity in inventory
+        System.out.println("Book added to Order ID " + orderId);
+    }
+
+    // Method to place and finalize an order
+    public void placeOrder(int orderId) {
+        Order order = findOrderById(orderId);
+        if (order == null) {
+            System.out.println("Order not found with ID: " + orderId);
+            return;
+        }
+
+        orders.remove(order); // Remove order from temporary orders list
+        order.generateInvoice(); // Generate and display invoice
+    }
+
+    // Helper method to find a customer by ID
+    private Customer findCustomerById(int customerId) {
+        for (Customer customer : customers) {
+            if (customer.getId() == customerId) {
+                return customer;
+            }
+        }
+        return null;
+    }
+
+    // Helper method to find an order by ID
+    private Order findOrderById(int orderId) {
+        for (Order order : orders) {
+            if (order.getOrderId() == orderId) {
+                return order;
+            }
+        }
+        return null;
+    }
+
+    // Helper method to find a book by ID
+    private Book findBookById(int bookId) {
+        return books.getOrDefault(bookId, null);
+    }
+
+    // Main method for testing
+    public static void main(String[] args) {
+        Bookstore bookstore = new Bookstore
